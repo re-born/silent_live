@@ -1,4 +1,4 @@
-var WS_HOST = window.location.href.replace(/(http|https)(:\/\/.*?)\//, 'ws$2'),
+var WS_HOST = window.location.hostname.replace(/(http|https)(:\/\/.*?)\//, 'ws$2'),
     as = null;
 
 var audioContext = window.AudioContext ? new window.AudioContext() :
@@ -36,7 +36,7 @@ var AudioStreamerCtrl = function($scope) {
       $scope.input_started = false;
       $scope.audio_loaded = false;
       $scope.source_connected = false;
-      $scope.streamer = new AudioStreamer(WS_HOST, function() {
+      $scope.streamer = new AudioStreamer('ws://'+WS_HOST+':8010', function() {
         $scope.streamer.onMessage = $scope.onmessage;
         $scope.streamer.nameSelf($scope.name || 'GUEST USER');
         $scope.websocket_started = true;
@@ -89,16 +89,3 @@ var AudioStreamerCtrl = function($scope) {
 window.addEventListener('touchmove', function() {
     document.body.ontouchmove = event.preventDefault();
 }, false);
-
-var isSmartphone = navigator.userAgent.search(/(iPhone|iPad|Android)/) !== -1
-if (isSmartphone){
-  // window.onload = function() {
-    // var acceleration = document.getElementById("acceleration");
-  //   window.addEventListener("devicemotion", function(ev){
-  //     var dx = ev.acceleration.x*100;
-  //     var dy = ev.acceleration.y*100;
-  //     var dz = ev.acceleration.z*100;
-  //     acceleration.textContent = Math.round(dx+dy+dz)
-  //   });
-  // }
-}

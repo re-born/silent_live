@@ -18,8 +18,7 @@ Author: Eiji Kitamura (agektmr@gmail.com)
 'use strict';
 
 var AudioStreamer = (function() {
-  var BUFFER_LENGTH = 1024,
-      ws_host = 'ws://0.0.0.0:2929';
+  var BUFFER_LENGTH = 1024;
 
   var TextMessage = {
     createMessage: function(type, message) {
@@ -102,7 +101,7 @@ var AudioStreamer = (function() {
     this.source = null;
     this.onMessage = null;
 
-    this.websocket = new WebSocket(ws_host+'/socket');
+    this.websocket = new WebSocket(ws_host);
     this.websocket.onopen = function() {
       if (typeof callback == 'function') {
         callback();

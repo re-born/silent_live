@@ -1,38 +1,23 @@
 require 'coreaudio'
 require 'pry'
-require 'em-websocket-client'
+require 'em-websocket'
 require 'json'
 
 EM.run do
-  conn = EventMachine::WebSocketClient.connect("ws://0.0.0.0:2929/socket")
+  EM::WebSocket.run(:host => "0.0.0.0", :port => 8010) do |ws|
 
-  dev = CoreAudio.default_input_device
-  # dev = CoreAudio.devices.find{|dev| dev.name == "Soundflower (2ch)" }
-  buf = dev.input_buffer(1024)
-
-  th = Thread.start do
-    while true
-      w = buf.read(1024)
-      a = (w[0, true].to_f / 32767).to_a
-      conn.send_msg a.to_s
+    dev = CoreAudio.default_input_device
+    buf = dev.input_buffer(1024)
+    th = Thread.start do
+      while true
+        w = buf.read(1024)
+        a = (w[0, true].to_f / 32767).to_a
+        ws.send a.to_s
+      end
     end
-  end
 
-  buf.start
+    ws.onclose { puts "Connection closed" }
 
-  conn.errback do |e|
-    puts "Got error: #{e}"
-  end
-
-  conn.stream do |msg|
-    puts "<#{msg}>"
-    if msg.data == "done"
-      conn.close_connection
-    end
-  end
-
-  conn.disconnect do
-    puts "gone"
-    EM::stop_event_loop
+    buf.start
   end
 end
