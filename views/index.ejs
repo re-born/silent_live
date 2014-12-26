@@ -1,0 +1,63 @@
+<header class="navbar">
+  <div class="navbar-inner">
+    <div class="container">
+      <div class="brand">Silent Live</div>
+    </div>
+  </div>
+</header>
+<section class="container" ng-controller="AudioStreamerCtrl">
+
+  <div class="row">
+    <p id="waiting_buffer"></p>
+    <div class="span4">
+      <div id="attendee">
+        <table class="table table-condensed" style="max-height: 500px; overflow-y: scroll;">
+          <tbody>
+            <tr>
+              <td class="form-inline">
+                <input type="text" id="name" ng-model="name" ng-disabled="websocket_started" placeholder="Enter your name and connect." style="width: 190px;" />
+                <input type="button" id="connect" class="btn btn-small" ng-class="{'btn-danger':websocket_started}" value="{{session_button}}" ng-click="toggle_session()" />
+              </td>
+            </tr>
+            <tr ng-repeat="attendee in attendees">
+              <td>{{attendee.name}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="span8">
+      <div id="conversation">
+        <div>
+          <div id="message" class="form-inline">
+            <input type="text" id="text" value="" ng-model="message" placeholder="Type text and enter to send chat" ng-disabled="!websocket_started" />
+          </div>
+          <div style="height: 150px; overflow-y: scroll;">
+            <table class="table table-condensed">
+              <colgroup>
+                <col class="span2">
+                <col class="span6">
+              </colgroup>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Message</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="message in messages">
+                  <td>{{message.name}}</td>
+                  <td ng-class="{muted:message.type=='start_music'}">{{message.message}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <hr id="hr_before_footer"> -->
+  <footer class="footer">
+    <!-- Programmed by Daichi Katayama -->
+  </footer>
+</section>

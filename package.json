@@ -1,0 +1,11 @@
+{
+  "name": "AudioStreamer",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "binarize.js": ">=0.5.1",
+    "ejs": ">= 0.0.1",
+    "express": "2.5.2",
+    "ws": "^0.6.3"
+  }
+}
