@@ -8,6 +8,6 @@ lib-cov
 *.pid
 node_modules
 *.sublime-*
-/build
-/logs
+build
+logs
 
